@@ -1,0 +1,2 @@
+# SPA fallback — not needed for static blog but good practice
+/blog  /index.html  200

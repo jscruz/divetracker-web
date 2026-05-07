@@ -58,20 +58,56 @@
         </div>
       </div>
       <div class="hero-diver">
-        <svg viewBox="0 0 120 200" xmlns="http://www.w3.org/2000/svg" class="diver-svg">
-          <circle cx="60" cy="30" r="18" fill="none" stroke="currentColor" stroke-width="1.5" opacity="0.6"/>
-          <line x1="60" y1="48" x2="60" y2="110" stroke="currentColor" stroke-width="1.5" opacity="0.6"/>
-          <line x1="60" y1="75" x2="35" y2="95" stroke="currentColor" stroke-width="1.5" opacity="0.6"/>
-          <line x1="60" y1="75" x2="85" y2="95" stroke="currentColor" stroke-width="1.5" opacity="0.6"/>
-          <line x1="60" y1="110" x2="45" y2="150" stroke="currentColor" stroke-width="1.5" opacity="0.6"/>
-          <line x1="60" y1="110" x2="75" y2="150" stroke="currentColor" stroke-width="1.5" opacity="0.6"/>
-          <!-- DSMB line -->
-          <line x1="60" y1="30" x2="60" y2="5" stroke="#00d4aa" stroke-width="1" stroke-dasharray="3 2" opacity="0.8"/>
-          <ellipse cx="60" cy="4" rx="6" ry="10" fill="#00d4aa" opacity="0.5"/>
-          <!-- Signal rings -->
-          <circle cx="60" cy="4" r="16" fill="none" stroke="#00d4aa" stroke-width="0.8" opacity="0.3" class="signal-ring r1"/>
-          <circle cx="60" cy="4" r="26" fill="none" stroke="#00d4aa" stroke-width="0.6" opacity="0.2" class="signal-ring r2"/>
-          <circle cx="60" cy="4" r="36" fill="none" stroke="#00d4aa" stroke-width="0.4" opacity="0.1" class="signal-ring r3"/>
+        <svg viewBox="0 0 120 280" xmlns="http://www.w3.org/2000/svg" class="diver-svg">
+
+          <!-- LoRa signal rings from top of DSMB -->
+          <circle cx="60" cy="28" r="18" fill="none" stroke="#00d4aa" stroke-width="0.8" opacity="0.35" class="signal-ring r1"/>
+          <circle cx="60" cy="28" r="30" fill="none" stroke="#00d4aa" stroke-width="0.6" opacity="0.22" class="signal-ring r2"/>
+          <circle cx="60" cy="28" r="44" fill="none" stroke="#00d4aa" stroke-width="0.4" opacity="0.12" class="signal-ring r3"/>
+
+          <!-- DSMB tube — tapered sausage shape -->
+          <!-- Top rounded cap -->
+          <ellipse cx="60" cy="36" rx="13" ry="7" fill="#cc2200" opacity="0.85"/>
+          <!-- Main body -->
+          <rect x="47" y="36" width="26" height="110" fill="#dd2200" opacity="0.85"/>
+          <!-- Bottom taper -->
+          <ellipse cx="60" cy="146" rx="13" ry="7" fill="#bb1f00" opacity="0.85"/>
+          <!-- Highlight stripe on tube -->
+          <rect x="50" y="36" width="5" height="110" fill="white" opacity="0.08" rx="2"/>
+          <!-- Reflective band near top -->
+          <rect x="47" y="55" width="26" height="6" fill="#ffcc00" opacity="0.5" rx="1"/>
+          <!-- Reflective band lower -->
+          <rect x="47" y="120" width="26" height="6" fill="#ffcc00" opacity="0.5" rx="1"/>
+
+          <!-- Water surface line -->
+          <path d="M10,160 Q25,155 40,160 Q55,165 70,160 Q85,155 100,160 Q110,163 120,160"
+                fill="none" stroke="#3b82f6" stroke-width="1.2" opacity="0.5"/>
+          <!-- Water fill below surface -->
+          <path d="M10,160 Q25,155 40,160 Q55,165 70,160 Q85,155 100,160 Q110,163 120,160 L120,280 L10,280 Z"
+                fill="#0a1628" opacity="0.6"/>
+
+          <!-- Bottom of DSMB submerged slightly — mouth/spool area -->
+          <ellipse cx="60" cy="153" rx="8" ry="4" fill="#881500" opacity="0.7"/>
+          <!-- Spool / reel line going down -->
+          <line x1="60" y1="157" x2="60" y2="200"
+                stroke="#9ba8b8" stroke-width="1" stroke-dasharray="4 3" opacity="0.5"/>
+          <!-- Diver reel suggestion at bottom -->
+          <circle cx="60" cy="205" r="7" fill="none" stroke="#9ba8b8" stroke-width="1" opacity="0.4"/>
+          <circle cx="60" cy="205" r="3" fill="#9ba8b8" opacity="0.3"/>
+
+          <!-- EVA float platform at water surface -->
+          <rect x="38" y="155" width="44" height="10" rx="5"
+                fill="#f97316" opacity="0.6"/>
+          <!-- T1000-E on the float -->
+          <rect x="44" y="148" width="32" height="8" rx="2"
+                fill="#1e3a5f" opacity="0.8"/>
+          <!-- Tiny blink LED on tracker -->
+          <circle cx="72" cy="152" r="1.5" fill="#00d4aa" opacity="0.9" class="signal-ring r1"/>
+
+          <!-- Tether from DSMB base to float -->
+          <line x1="60" y1="153" x2="60" y2="155"
+                stroke="#f97316" stroke-width="1.5" opacity="0.7"/>
+
         </svg>
       </div>
     </section>
