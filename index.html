@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>DiveMesh — LoRa Diver Tracking at Sea</title>
+  <meta name="description" content="A proof-of-concept for using Meshtastic LoRa mesh networks to track divers at sea. From hypothesis to first open-water test." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=DM+Mono:wght@300;400&family=Lora:ital,wght@0,400;1,400&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <!-- Animated ocean background -->
+  <div class="ocean-bg">
+    <div class="bubble" style="--x:12%;--delay:0s;--size:4px;--duration:8s"></div>
+    <div class="bubble" style="--x:28%;--delay:1.5s;--size:6px;--duration:11s"></div>
+    <div class="bubble" style="--x:45%;--delay:3s;--size:3px;--duration:9s"></div>
+    <div class="bubble" style="--x:61%;--delay:0.7s;--size:5px;--duration:13s"></div>
+    <div class="bubble" style="--x:74%;--delay:2.2s;--size:4px;--duration:10s"></div>
+    <div class="bubble" style="--x:88%;--delay:4s;--size:7px;--duration:12s"></div>
+    <div class="bubble" style="--x:35%;--delay:5s;--size:3px;--duration:8s"></div>
+    <div class="bubble" style="--x:55%;--delay:2.8s;--size:5px;--duration:14s"></div>
+  </div>
+
+  <header class="site-header">
+    <div class="header-inner">
+      <div class="logo">
+        <span class="logo-mark">◈</span>
+        <span class="logo-text">DiveMesh</span>
+      </div>
+      <nav>
+        <a href="#hypothesis">Hypothesis</a>
+        <a href="#hardware">Hardware</a>
+        <a href="#test">Field Test</a>
+        <a href="#next">Next Steps</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+
+    <!-- Hero -->
+    <section class="hero">
+      <div class="hero-depth-lines">
+        <span></span><span></span><span></span><span></span><span></span>
+      </div>
+      <div class="hero-content">
+        <p class="hero-label">Proof of Concept · Field Report · May 2026</p>
+        <h1>Tracking Divers at Sea<br/><em>with a LoRa Mesh Network</em></h1>
+        <p class="hero-sub">Using Meshtastic, off-the-shelf hardware, and the public mesh backbone of southern England to give skippers real-time awareness of their divers at the surface.</p>
+        <div class="hero-meta">
+          <span><span class="meta-label">Site</span> Swanage Bay, Dorset</span>
+          <span><span class="meta-label">Date</span> 5 May 2026</span>
+          <span><span class="meta-label">Nodes discovered</span> 30</span>
+          <span><span class="meta-label">Max reach</span> ~230 km</span>
+        </div>
+      </div>
+      <div class="hero-diver">
+        <svg viewBox="0 0 120 200" xmlns="http://www.w3.org/2000/svg" class="diver-svg">
+          <circle cx="60" cy="30" r="18" fill="none" stroke="currentColor" stroke-width="1.5" opacity="0.6"/>
+          <line x1="60" y1="48" x2="60" y2="110" stroke="currentColor" stroke-width="1.5" opacity="0.6"/>
+          <line x1="60" y1="75" x2="35" y2="95" stroke="currentColor" stroke-width="1.5" opacity="0.6"/>
+          <line x1="60" y1="75" x2="85" y2="95" stroke="currentColor" stroke-width="1.5" opacity="0.6"/>
+          <line x1="60" y1="110" x2="45" y2="150" stroke="currentColor" stroke-width="1.5" opacity="0.6"/>
+          <line x1="60" y1="110" x2="75" y2="150" stroke="currentColor" stroke-width="1.5" opacity="0.6"/>
+          <!-- DSMB line -->
+          <line x1="60" y1="30" x2="60" y2="5" stroke="#00d4aa" stroke-width="1" stroke-dasharray="3 2" opacity="0.8"/>
+          <ellipse cx="60" cy="4" rx="6" ry="10" fill="#00d4aa" opacity="0.5"/>
+          <!-- Signal rings -->
+          <circle cx="60" cy="4" r="16" fill="none" stroke="#00d4aa" stroke-width="0.8" opacity="0.3" class="signal-ring r1"/>
+          <circle cx="60" cy="4" r="26" fill="none" stroke="#00d4aa" stroke-width="0.6" opacity="0.2" class="signal-ring r2"/>
+          <circle cx="60" cy="4" r="36" fill="none" stroke="#00d4aa" stroke-width="0.4" opacity="0.1" class="signal-ring r3"/>
+        </svg>
+      </div>
+    </section>
+
+    <div class="content-wrapper">
+
+      <!-- The Problem -->
+      <section class="article-section fade-in" id="problem">
+        <div class="section-tag">01 — The Problem</div>
+        <h2>A gap in awareness that matters</h2>
+        <p>Recreational and technical diving has a surface support problem. When a diver descends, the skipper on the boat loses all meaningful awareness of where they are. The diver carries a DSMB — a Delayed Surface Marker Buoy — which signals their approximate ascent point when they surface. But between descent and that moment, the skipper is effectively blind. In strong currents, low visibility conditions, or busy shipping lanes, that gap in awareness is a genuine safety risk.</p>
+        <p>Existing solutions are either expensive, proprietary, or both. Commercial diver tracking systems require dedicated hardware, subscription services, and often rely on acoustic underwater positioning — complex, fragile, and well outside the budget of a club dive boat.</p>
+        <blockquote>
+          What if you could use the public Meshtastic LoRa mesh to give the skipper real-time awareness of diver positions at the surface, using off-the-shelf hardware costing under £100 per diver?
+        </blockquote>
+      </section>
+
+      <!-- Why Meshtastic -->
+      <section class="article-section fade-in" id="hypothesis">
+        <div class="section-tag">02 — Technology</div>
+        <h2>Why Meshtastic and LoRa</h2>
+        <p><a href="https://meshtastic.org" target="_blank" rel="noopener">Meshtastic</a> is an open-source project that turns inexpensive LoRa radio modules into a self-forming, self-healing mesh network. Nodes discover each other automatically, relay packets on behalf of other nodes, and expose a clean API for custom applications. It runs on the 868 MHz band in Europe — a frequency that propagates well over open water and around obstacles.</p>
+        <p>LoRa (Long Range) modulation is specifically designed for low-power, long-range communication of small data payloads. A GPS coordinate, a node ID, and a timestamp fit comfortably in a single LoRa packet. Battery life on a small tracker can be measured in days. And critically — LoRa signals can travel tens of kilometres over open water with a clear line of sight.</p>
+
+        <div class="callout-grid">
+          <div class="callout-card">
+            <div class="callout-icon">⟁</div>
+            <h4>Self-healing mesh</h4>
+            <p>Nodes relay packets automatically. No single point of failure.</p>
+          </div>
+          <div class="callout-card">
+            <div class="callout-icon">◎</div>
+            <h4>868 MHz propagation</h4>
+            <p>Penetrates obstacles, hugs the water surface, reaches hilltop relays kilometres away.</p>
+          </div>
+          <div class="callout-card">
+            <div class="callout-icon">⬡</div>
+            <h4>LongFast channel</h4>
+            <p>Optimised for range over throughput. The right choice when reachability is safety.</p>
+          </div>
+          <div class="callout-card">
+            <div class="callout-icon">⊕</div>
+            <h4>Public backbone</h4>
+            <p>Opt into free relay infrastructure from hilltop nodes and home gateways across the country.</p>
+          </div>
+        </div>
+
+        <p>The LongFast channel — Meshtastic's default public channel — uses a spreading factor and bandwidth configuration optimised for range over throughput. It is the right choice for a maritime safety application where reachability matters more than privacy. A diver's GPS position is not sensitive data. What matters is that the packet reaches the skipper's phone, by whatever path through the mesh is available.</p>
+      </section>
+
+      <!-- Hardware -->
+      <section class="article-section fade-in" id="hardware">
+        <div class="section-tag">03 — Hardware</div>
+        <h2>The prototype stack</h2>
+        <p>The prototype used three categories of hardware, all running open firmware with no subscription or proprietary lock-in.</p>
+
+        <div class="hardware-stack">
+          <div class="hardware-item">
+            <div class="hw-number">01</div>
+            <div class="hw-body">
+              <h3>Diver nodes — SenseCAP T1000-E</h3>
+              <p>The Seeed Studio SenseCAP T1000-E is a credit-card-sized GPS tracker (85×55×6.5mm, 32g) with an integrated LoRa radio, GPS, accelerometer, and a user-accessible button. It runs Meshtastic firmware natively. The button supports configurable tap gestures — including a double-tap that can be mapped to an attention alert packet, allowing a diver at the surface to signal the skipper directly. It is rated IP65 and designed for asset tracking, but its compact form factor and low power consumption make it well suited for a wearable dive tracker. One T1000-E per diver.</p>
+              <div class="hw-specs">
+                <span>85×55×6.5 mm</span>
+                <span>32 g</span>
+                <span>IP65</span>
+                <span>Meshtastic native</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="hardware-item">
+            <div class="hw-number">02</div>
+            <div class="hw-body">
+              <h3>Boat node — Heltec V3</h3>
+              <p>The Heltec WiFi LoRa 32 V3 is a development board combining an ESP32-S3, a 868 MHz LoRa radio, and a small OLED display. It runs Meshtastic firmware and connects to the skipper's Android phone via Bluetooth LE. It sits on the RHIB and acts as the surface gateway — the node the skipper's app communicates with directly. Its range and mesh routing capability make it the hub of the local network.</p>
+              <div class="hw-specs">
+                <span>ESP32-S3</span>
+                <span>868 MHz LoRa</span>
+                <span>BLE to phone</span>
+                <span>OLED display</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="hardware-item">
+            <div class="hw-number">03</div>
+            <div class="hw-body">
+              <h3>Skipper node — Android application</h3>
+              <p>A custom Android application built on the Meshtastic SDK. It connects to the Heltec V3 over BLE, listens for incoming position packets from registered diver nodes, and renders their positions on a map. Markers are colour-coded by packet freshness — green for a recent fix, amber for ageing, red for no signal. An attention flag on an incoming packet triggers an Android system notification with audio alert — signalling the skipper to look for that diver at the surface.</p>
+              <div class="hw-specs">
+                <span>Meshtastic SDK</span>
+                <span>BLE connected</span>
+                <span>Live map</span>
+                <span>Audio alerts</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Prototype photos -->
+      <section class="article-section fade-in proto-photos">
+        <div class="section-tag">04 — Prototype</div>
+        <h2>What it looked like in practice</h2>
+        <p>Both nodes were built from off-the-shelf components with no custom PCBs or machined parts — a deliberate constraint to keep the PoC reproducible and cheap.</p>
+
+        <div class="photo-grid">
+          <figure class="photo-card">
+            <div class="photo-wrap">
+              <img src="img-dsmb.jpg" alt="SenseCAP T1000-E inside a JOTO waterproof pouch, cable-tied to the top of a red DSMB tube" loading="lazy" />
+            </div>
+            <figcaption>
+              <span class="fig-label">Diver node</span>
+              The SenseCAP T1000-E inside a JOTO waterproof pouch, cable-tied to the top of the DSMB tube with red zip ties. Functional on the bench — but when the DSMB tips in chop, the pouch goes underwater with it. This is the failure mode the EVA float is designed to fix.
+            </figcaption>
+          </figure>
+
+          <figure class="photo-card">
+            <div class="photo-wrap">
+              <img src="img-heltec.jpg" alt="Heltec V3 inside a sealed Tupperware food container with an external 868 MHz antenna through the lid" loading="lazy" />
+            </div>
+            <figcaption>
+              <span class="fig-label">Boat node</span>
+              The Heltec V3 inside a sealed Tupperware container, with an external 868 MHz antenna fed through a bulkhead connector in the lid. Weatherproof, compact, and it sat on the boat seat without any mast — and still discovered 30 nodes across southern England.
+            </figcaption>
+          </figure>
+        </div>
+      </section>
+
+      <!-- Hypothesis -->
+      <section class="article-section fade-in">
+        <div class="section-tag">05 — Setup</div>
+        <h2>Working assumptions before the test</h2>
+        <p>Before the first water test, the working assumptions were:</p>
+        <ol class="assumption-list">
+          <li>The T1000-E would transmit reliably when at the surface with clear sky view</li>
+          <li>The Heltec V3 on the boat, even without an elevated antenna, would receive packets within typical dive site distances (50–200m)</li>
+          <li>The Meshtastic public mesh in coastal southern England would provide additional relay infrastructure</li>
+          <li>The double-tap attention gesture would be a viable pickup signal — deliberate enough to avoid false positives, simple enough to execute at the surface</li>
+        </ol>
+        <p>The key unknown was the DSMB integration. The plan was to attach the T1000-E to the DSMB so it would be lifted to the surface as the diver ascended. In practice, this proved to be the primary failure point of the first test.</p>
+      </section>
+
+      <!-- Field Test -->
+      <section class="article-section fade-in" id="test">
+        <div class="section-tag">06 — Field Test</div>
+        <h2>First open water test — Swanage Bay, 5 May 2026</h2>
+        <p>The test site was Swanage Bay on the Dorset coast, with a subsequent transit to the Kimmeridge / St Alban's Head area for the dive itself. Conditions were representative of typical recreational diving in the area — moderate chop, some tidal current.</p>
+
+        <div class="result-block success">
+          <div class="result-label">✓ What worked</div>
+
+          <h3>Mesh discovery</h3>
+          <p>The Heltec V3 on the boat, sitting on a seat without any mast or elevated antenna, began discovering nodes as soon as it powered up. By the end of the session the GPX export logged <strong>30 distinct nodes</strong> making contact with the mesh.</p>
+          <p>The geographic spread of those nodes tells the real story of LoRa propagation over open water and high ground:</p>
+
+          <div class="node-discoveries">
+            <div class="node-item">
+              <div class="node-loc">Ballard Down, Swanage</div>
+              <div class="node-detail">Two stationary nodes at 21m and 47m elevation — natural hilltop relays directly above the dive area.</div>
+            </div>
+            <div class="node-item">
+              <div class="node-loc">Dartmoor — ~60 km</div>
+              <div class="node-detail">A node at 232m elevation appeared repeatedly over 80 minutes. Direct line-of-sight propagation over open water and high moor.</div>
+            </div>
+            <div class="node-item">
+              <div class="node-loc">East Sussex — ~230 km</div>
+              <div class="node-detail">A node at 200m with positive longitude (0.29°E) made contact — almost certainly via multi-hop relay through the public mesh backbone.</div>
+            </div>
+          </div>
+
+          <p>This confirmed the core hypothesis about LongFast and reachability: the public Meshtastic mesh in southern England is denser and more capable than expected, and opting into it as free relay infrastructure is the correct architectural choice for a safety application.</p>
+
+          <h3>Attention alert workflow</h3>
+          <p>The attention alert workflow functioned end-to-end. On surfacing, a diver removed the T1000-E from the water, held it above the surface to acquire a GPS fix, and executed a double-tap on the button. This is the equivalent of a diver signalling the skipper for pickup — not necessarily an emergency, but a clear, deliberate communication: <em>I am here, come and get me.</em> The alert packet propagated through the mesh and triggered an Android system notification with audio on the skipper's phone. The deliberate two-step — surface, then tap — proved to be the right UX. It prevents accidental triggers and makes the gesture intentional.</p>
+
+          <h3>Node-to-node communication</h3>
+          <p>Diver nodes were online and transmitting as soon as they cleared the water surface. Packet loss while submerged was total, as expected — seawater attenuates 868 MHz signals within centimetres. But the transition from submerged to transmitting was immediate on surfacing.</p>
+        </div>
+
+        <div class="result-block failure">
+          <div class="result-label">✗ What failed</div>
+
+          <h3>DSMB attachment</h3>
+          <p>The T1000-E was housed in a dry bag cable-tied to the top of the DSMB tube. In any chop or current, the DSMB tips — and when it tips, the dry bag goes underwater with it. An underwater T1000-E does not transmit. This was the primary failure mode of the session.</p>
+          <p>The fix is a dedicated surface float that decouples the tracker's orientation from the DSMB. A flat EVA foam raft with a lead ballast strip on the bottom and the T1000-E recessed into the top face, tethered horizontally to the DSMB line, will self-right independently of DSMB orientation. The tether runs horizontally between the DSMB (floating vertically) and the EVA float (lying flat on the surface), so the T1000-E always has sky view regardless of what the DSMB does.</p>
+        </div>
+      </section>
+
+      <!-- Next Steps -->
+      <section class="article-section fade-in" id="next">
+        <div class="section-tag">07 — What comes next</div>
+        <h2>Second test hypotheses</h2>
+        <p>The second test is scheduled for the following week with the revised float design. The specific hypotheses to validate are:</p>
+
+        <div class="next-grid">
+          <div class="next-item">
+            <h4>Float reliability</h4>
+            <p>Does the EVA foam raft keep the T1000-E consistently above the waterline throughout a dive, including during ascent when the DSMB is first inflated and may be unstable?</p>
+          </div>
+          <div class="next-item">
+            <h4>Passive position tracking</h4>
+            <p>With the tracker reliably at the surface, do automatic position packets arrive at the skipper app without any diver intervention? This would be the transition from manual pickup signals to genuine real-time tracking.</p>
+          </div>
+          <div class="next-item">
+            <h4>Skipper UX</h4>
+            <p>The current app renders all discovered nodes. With 30 nodes visible in a session, this is unworkable in a safety context. A dive roster — a pre-session manifest of diver node IDs — will filter the map to show only the current dive group.</p>
+          </div>
+          <div class="next-item">
+            <h4>Multi-diver scenarios</h4>
+            <p>Two divers, two T1000-Es, one skipper — does the app correctly distinguish and label both diver positions simultaneously?</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Closing -->
+      <section class="article-section fade-in closing">
+        <h2>The bigger picture</h2>
+        <p>Meshtastic was not designed for maritime diver tracking. It was designed as a general-purpose off-grid communication mesh. But the properties that make it useful off-grid — long range, low power, self-healing topology, open API, commodity hardware — map almost exactly onto what a diver tracking system needs.</p>
+        <p>The LongFast public channel is the right default for this application because reachability is safety. A diver's GPS coordinate propagating through a network of hilltop relay nodes and home gateways across southern England is not a privacy concern. It is the system working as intended.</p>
+
+        <div class="cost-callout">
+          <div class="cost-item">
+            <span class="cost-label">Two T1000-Es + Heltec V3 + float materials</span>
+            <span class="cost-value">~£120</span>
+          </div>
+          <div class="cost-item">
+            <span class="cost-label">Subscription</span>
+            <span class="cost-value">None</span>
+          </div>
+          <div class="cost-item">
+            <span class="cost-label">Proprietary infrastructure</span>
+            <span class="cost-value">None</span>
+          </div>
+          <div class="cost-item">
+            <span class="cost-label">Single point of failure</span>
+            <span class="cost-value">None</span>
+          </div>
+        </div>
+
+        <p class="closing-line">That is the hypothesis. The first test proved the mesh. The second test will prove the float. After that, the question is whether this becomes something more than a PoC.</p>
+
+        <div class="open-source-note">
+          DiveMesh is an open prototype. Hardware designs, Android app source, and session data will be published after the second test.
+        </div>
+      </section>
+
+    </div>
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+      <span class="logo-text">DiveMesh</span>
+      <span>Swanage Bay · May 2026 · Open Prototype</span>
+    </div>
+  </footer>
+
+  <script src="main.js"></script>
+</body>
+</html>
