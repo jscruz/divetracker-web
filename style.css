@@ -95,8 +95,10 @@ body {
 }
 
 .logo-mark {
-  color: var(--biolum);
-  font-size: 1.1rem;
+  height: 1.6rem;
+  width: auto;
+  display: block;
+  flex-shrink: 0;
 }
 
 .logo-text {

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg"
+     viewBox="41.99 22.78 120.40 107.00"
+     width="240" height="214">
+  <rect x="41.99" y="22.78" width="120.40" height="107.00"
+        fill="#060d1a"/>
+  <path fill="none" stroke="#00d4aa" stroke-width="2" stroke-linejoin="round"
+        d="m 74.682,44.328 9.048,-6.670 c 0,0 43.541,4.177 56.719,23.112 -2.886,19.691 -44.412,48.759 -44.412,48.759 l -11.623,-5.599 c 1.917,-26.760 1.065,-35.552 -9.732,-59.602 z"/>
+  <path fill="none" stroke="#00d4aa" stroke-width="2" stroke-linejoin="round"
+        d="m 70.138,47.846 8.860,-6.904 c 0,0 45.016,4.905 49.329,22.278 4.314,17.373 -37.263,43.702 -37.263,43.702 l -11.594,-5.240 c 1.762,-24.523 0.808,-31.956 -9.332,-53.836 z"/>
+  <path fill="none" stroke="#00d4aa" stroke-width="2" stroke-linejoin="round"
+        d="m 66.541,50.731 8.141,-6.403 c 0,0 42.514,5.815 45.886,21.631 3.372,15.816 -35.489,38.323 -35.489,38.323 l -9.971,-4.555 c 1.650,-22.352 0.728,-28.908 -8.567,-48.996 z"/>
+  <text x="105.18" y="120.50"
+        font-family="sans-serif" font-weight="bold" font-size="15.4"
+        fill="#00d4aa" text-anchor="middle">DiveMesh</text>
+</svg>
