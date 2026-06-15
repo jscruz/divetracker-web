@@ -242,6 +242,142 @@ nav a:hover { color: var(--biolum); }
   100% { opacity: 0; transform: scale(1.4); }
 }
 
+/* ── Hero actions / buttons ── */
+.hero-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin-bottom: 2.5rem;
+}
+
+.btn {
+  font-family: 'DM Mono', monospace;
+  font-size: 0.72rem;
+  font-weight: 400;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  padding: 0.85rem 1.6rem;
+  border-radius: 6px;
+  text-decoration: none;
+  border: 1px solid transparent;
+  transition: background 0.2s, border-color 0.2s, color 0.2s, transform 0.2s;
+  cursor: pointer;
+  display: inline-block;
+}
+
+.btn-primary {
+  background: var(--biolum);
+  color: var(--ocean-deep);
+  border-color: var(--biolum);
+}
+
+.btn-primary:hover {
+  background: #33e5c0;
+  border-color: #33e5c0;
+  color: var(--ocean-deep);
+  transform: translateY(-1px);
+}
+
+.btn-ghost {
+  background: transparent;
+  color: var(--biolum);
+  border-color: var(--border-accent);
+}
+
+.btn-ghost:hover {
+  border-color: var(--biolum);
+  color: #33e5c0;
+  background: var(--biolum-glow);
+}
+
+/* ── CTA section ── */
+.cta-section {
+  position: relative;
+  z-index: 1;
+  max-width: 760px;
+  margin: 0 auto;
+  padding: 0 2rem 6rem;
+  text-align: center;
+}
+
+.cta-card {
+  border: 1px solid var(--border-accent);
+  background: var(--biolum-glow);
+  border-radius: 12px;
+  padding: 3.5rem 2.5rem;
+}
+
+.cta-card h2 { margin-bottom: 1rem; }
+
+.cta-card p {
+  max-width: 480px;
+  margin: 0 auto 2rem;
+}
+
+.cta-card .hero-actions {
+  justify-content: center;
+  margin-bottom: 0;
+}
+
+/* ── Use cases ── */
+.usecases {
+  margin: 2.5rem 0;
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  overflow: hidden;
+  background: var(--border);
+}
+
+.usecase {
+  background: var(--ocean-mid);
+  padding: 1.75rem 2rem;
+  transition: background 0.2s;
+}
+
+.usecase:hover { background: var(--ocean-surface); }
+
+.usecase-head {
+  display: flex;
+  align-items: baseline;
+  gap: 0.85rem;
+  margin-bottom: 0.75rem;
+  flex-wrap: wrap;
+}
+
+.usecase-tag {
+  font-family: 'DM Mono', monospace;
+  font-size: 0.62rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--biolum);
+  background: var(--biolum-glow);
+  border: 1px solid var(--border-accent);
+  padding: 0.25rem 0.6rem;
+  border-radius: 3px;
+  white-space: nowrap;
+}
+
+.usecase-head h3 {
+  margin: 0;
+  font-size: 1.15rem;
+}
+
+.usecase p {
+  font-size: 0.92rem;
+  line-height: 1.7;
+  margin: 0;
+}
+
+.usecase .disclaimer {
+  margin-top: 0.85rem;
+  font-size: 0.78rem;
+  color: var(--text-dim);
+  font-style: italic;
+}
+
 /* ── Content wrapper ── */
 .content-wrapper {
   position: relative;
@@ -579,38 +715,6 @@ blockquote {
 /* ── Closing ── */
 .closing { border-top: 1px solid var(--border); padding-top: 4rem; }
 
-.cost-callout {
-  margin: 2.5rem 0;
-  border: 1px solid var(--border);
-  border-radius: 8px;
-  overflow: hidden;
-}
-
-.cost-item {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 1rem 1.5rem;
-  border-bottom: 1px solid var(--border);
-  gap: 2rem;
-}
-
-.cost-item:last-child { border-bottom: none; }
-
-.cost-label {
-  font-size: 0.88rem;
-  color: var(--text-secondary);
-}
-
-.cost-value {
-  font-family: 'DM Mono', monospace;
-  font-size: 0.82rem;
-  font-weight: 400;
-  color: var(--biolum);
-  letter-spacing: 0.05em;
-  white-space: nowrap;
-}
-
 .closing-line {
   font-family: 'Playfair Display', serif;
   font-style: italic;
@@ -620,16 +724,18 @@ blockquote {
   margin: 2rem 0;
 }
 
-.open-source-note {
+.info-note {
   font-family: 'DM Mono', monospace;
   font-size: 0.72rem;
   font-weight: 300;
   letter-spacing: 0.06em;
+  line-height: 1.7;
   color: var(--text-dim);
   border: 1px solid var(--border);
   padding: 1rem 1.25rem;
   border-radius: 6px;
-  margin-top: 2rem;
+  margin: 2rem auto 0;
+  max-width: 600px;
 }
 
 /* ── Footer ── */
@@ -727,6 +833,8 @@ figcaption {
   .content-wrapper { padding: 0 1.5rem 4rem; }
   .node-item { flex-direction: column; gap: 0.4rem; }
   .node-loc { min-width: auto; }
-  .cost-item { flex-direction: column; align-items: flex-start; gap: 0.25rem; }
   .footer-inner { flex-direction: column; gap: 0.5rem; text-align: center; }
+  .hero-actions .btn { flex: 1; text-align: center; }
+  .cta-card { padding: 2.5rem 1.5rem; }
+  .cta-section { padding: 0 1.5rem 4rem; }
 }
